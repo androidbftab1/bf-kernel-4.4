@@ -1,0 +1,54 @@
+#!/bin/sh
+
+# place the commands to run after the pppd dial up successfully.
+
+. /sbin/global.sh
+
+if [ "$CONFIG_ANDROID" == "y" ]; then
+	wan_status_file=/var/wan_status
+        wan_settings_file=/var/wan_settings
+        IF_NAME=$1
+        LOCAL_IP=$4
+        NETMASK=`ifconfig $IF_NAME | grep Mask | sed 's/^.*Mask\://g'`
+
+	sed -i "/wanConnectionMode/s/=.*$/=$wanmode/g" $wan_settings_file
+	sed -i "/wan_interface/s/=.*$/=$IF_NAME/g"     $wan_settings_file
+	sed -i "/wan_ipaddr/s/=.*$/=$LOCAL_IP/g"       $wan_settings_file
+	sed -i "/wan_netmask/s/=.*$/=$NETMASK/g"       $wan_settings_file
+
+        if [ "$wanmode" = "L2TP" ]; then
+                mode=`nvram_get 2860 wan_l2tp_mode`
+                if [ "$mode" = "0" ]; then
+                        gw=`nvram_get 2860 wan_l2tp_gateway`
+			sed -i "/wan_gateway/s/=.*$/=$gw/g" $wan_settings_file
+	        fi
+	elif [ "$wanmode" = "PPTP" ]; then
+                mode=`nvram_get 2860 wan_pptp_mode`
+	        if [ "$mode" = "0" ]; then
+                        gw=`nvram_get 2860 wan_pptp_gateway`
+			sed -i "/wan_gateway/s/=.*$/=$gw/g" $wan_settings_file
+	        fi
+	fi
+
+	echo "wan_done=1" > $wan_status_file
+fi
+
+
+if [ -x /bin/qos_run ]; then
+	echo "/bin/qos_run"
+	/bin/qos_run
+fi
+
+if [ -x /sbin/ddns.sh ]; then
+	echo "/sbin/ddns.sh"
+	/sbin/ddns.sh
+fi
+
+if [ -x /sbin/config-udhcpd.sh ]; then
+	echo "/sbin/config-udhcpd.sh $DNS1 $DNS2"
+	/sbin/config-udhcpd.sh -d $DNS1 $DNS2
+fi
+
+# notify goahead that WAN IP has been acquired/updated.
+killall -SIGTSTP goahead
+killall -SIGTSTP nvram_daemon

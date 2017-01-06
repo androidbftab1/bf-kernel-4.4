@@ -1,0 +1,21 @@
+bpi=bananapi
+board=bpi-r2
+chip=mt7623n
+service=linux
+kernel=uImage
+#
+kaddr=0x84000000
+rdaddr=0x86000000
+#
+#
+
+ahello=echo Banana Pi ${board} chip: $chip Service: $service
+
+aboot=if fatload $device $partition $rdaddr ${bpi}/berryboot.img; then bootm $kaddr $rdaddr ; else bootm $kaddr; fi
+aload_kernel=fatload $device $partition $kaddr ${bpi}/${board}/${service}/${kernel}
+
+uenvcmd=run ahello aload_kernel aboot
+
+# ref. 
+bootargs=console=tty0 console=ttyMT2,115200n1 root=/dev/mmcblk0p2 lcm=1-hx8392a_vdo_cmd fps=4433 vram=13631488 androidboot.selinux=disabled bootprof.pl_t=1149 bootprof.lk_t=9849 printk.disable_uart=0 boot_reason=0 androidboot.serialno=0123456789ABCDEF androidboot.bootreason=power_key bootmenutimeout=10 datadev=mmcblk0p2
+

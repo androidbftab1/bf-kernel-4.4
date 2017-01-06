@@ -1,0 +1,4 @@
+config MTK_THERMAL
+	bool "MTK_THERMAL"
+	help
+	  This is for MTK thermal driver.
