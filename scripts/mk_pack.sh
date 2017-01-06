@@ -11,6 +11,8 @@ set -e
 
 . ./env.sh
 
+exit 0
+
 PACK_ROOT="$TOPDIR/sunxi-pack"
 #PLATFORM="linux"
 #PLATFORM="dragonboard"

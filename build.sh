@@ -14,6 +14,7 @@ BPISOC=mtk
 
 cp_download_files()
 {
+	return #SKIP
 T="$TOPDIR"
 SD="$T/SD"
 U="${SD}/100MB"
