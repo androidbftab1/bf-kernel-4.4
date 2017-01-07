@@ -11,7 +11,7 @@ set -e
 
 . ./env.sh
 
-exit 0
+#exit 0
 
 PACK_ROOT="$TOPDIR/mt-pack"
 PLATFORM="linux"
