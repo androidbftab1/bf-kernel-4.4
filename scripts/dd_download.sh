@@ -17,7 +17,7 @@ die() {
 . ./env.sh
 
 O=$1
-PRELOADER=$TOPDIR/mt-pack/${TARGET_PRODUCT}/bin/preloader_iotg7623Np1_emmc.bin
+PRELOADER=$TOPDIR/mt-pack/mtk/${TARGET_PRODUCT}/bin/preloader_iotg7623Np1_emmc.bin
 UBOOT=$TOPDIR/u-boot-mt/u-boot.bin
 
 sudo dd if=$PRELOADER 	of=$O bs=1k seek=2
