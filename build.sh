@@ -7,7 +7,7 @@ BOARD=BPI-R2-720P
 board="bpi-r2"
 kernel="4.4.24-BPI-R2-Kernel"
 MODE=$1
-BPILINUX=linxu-mt
+BPILINUX=linux-mt
 BPIPACK=mt-pack
 BPISOC=mtk
 
