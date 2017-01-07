@@ -13,22 +13,17 @@ set -e
 
 exit 0
 
-PACK_ROOT="$TOPDIR/sunxi-pack"
-#PLATFORM="linux"
-#PLATFORM="dragonboard"
-PLATFORM="tina"
+PACK_ROOT="$TOPDIR/mt-pack"
+PLATFORM="linux"
 
 pack_bootloader()
 {
   BOARD=$1
-  (
   echo "MACH=$MACH, PLATFORM=$PLATFORM, TARGET_PRODUCT=${TARGET_PRODUCT} BOARD=$BOARD"
-  scripts/pack_img.sh -c ${MACH} -p ${PLATFORM} -b ${TARGET_PRODUCT} -d uart0 -s none -s none -t $TOPDIR
-  )
   $TOPDIR/scripts/bootloader.sh $BOARD
 }
 
-BOARDS=`(cd sunxi-pack/allwinner/${TARGET_PRODUCT}/configs ; ls -1d BPI*)`
+BOARDS=`(cd mt-pack/mtk/${TARGET_PRODUCT}/configs ; ls -1d BPI*)`
 for IN in $BOARDS ; do
   pack_bootloader $IN
 done 

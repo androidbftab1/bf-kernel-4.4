@@ -17,13 +17,9 @@ die() {
 . ./env.sh
 
 O=$1
-#P=../out/${TARGET_PRODUCT}/image/
-P=$TOPDIR/out/${TARGET_PRODUCT}/image/
+PRELOADER=$TOPDIR/mt-pack/${TARGET_PRODUCT}/bin/preloader_iotg7623Np1_emmc.bin
+UBOOT=$TOPDIR/u-boot-mt/u-boot.bin
 
-sudo dd if=$P/boot0_sdcard.fex 	of=$O bs=1k seek=8
-sudo dd if=$P/boot_package.fex 	of=$O bs=1k seek=16400
-sudo dd if=$P/sunxi_mbr.fex 	of=$O bs=1k seek=20480
-sudo dd if=$P/boot-resource.fex	of=$O bs=1k seek=36864
-sudo dd if=$P/env.fex 		of=$O bs=1k seek=53248
-#sudo dd if=$P/boot.fex 		of=$O bs=1k seek=54272
+sudo dd if=$PRELOADER 	of=$O bs=1k seek=2
+sudo dd if=$UBOOT 	of=$O bs=1k seek=320
 

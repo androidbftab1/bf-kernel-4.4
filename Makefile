@@ -63,18 +63,10 @@ kernel-config: $(K_DOT_CONFIG)
 ## bsp
 bsp: u-boot kernel
 
-## linux
-linux: 
-	$(Q)scripts/mk_linux.sh $(ROOTFS)
-
 help:
 	@echo ""
 	@echo "Usage:"
 	@echo "  make bsp             - Default 'make'"
-	@echo "  make linux         - Build target for linux platform, as ubuntu, need permisstion confirm during the build process"
-	@echo "   Arguments:"
-	@echo "    ROOTFS=            - Source rootfs (ie. rootfs.tar.gz with absolute path)"
-	@echo ""
 	@echo "  make pack            - pack the images and rootfs to a PhenixCard download image."
 	@echo "  make clean"
 	@echo ""
