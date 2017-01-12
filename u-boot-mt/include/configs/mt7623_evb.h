@@ -453,12 +453,12 @@
     "service=linux\0" \
     "scriptaddr=0x83000000\0" \
     "device=mmc\0" \
-    "partition=0:1\0" \
+    "partition=1:1\0" \
     "kernel=uImage\0" \
     "bootenv=uEnv.txt\0" \
-    "checkemmc=fatinfo ${device} 2:1\0" \
+    "checksd=fatinfo ${device} 1:1\0" \
     "loadbootenv=fatload ${device} ${partition} ${scriptaddr} ${bpi}/${board}/${service}/${bootenv} || fatload ${device} ${partition} ${scriptaddr} ${bootenv}\0" \
-    "boot_normal=if run checkemmc; then setenv partition 2:1; fi; if run loadbootenv; then echo Loaded environment from ${bootenv}; env import -t ${scriptaddr} ${filesize}; fi; run uenvcmd; fatload mmc 0:1 ${loadaddr} ${bpi}/${board}/${service}/${kernel}; bootm\0" \
+    "boot_normal=if run checksd; then echo Boot from SD ; setenv partition 1:1; else echo Boot from eMMC ; mmc init 0 ; setenv partition 0:1 ; fi; if run loadbootenv; then echo Loaded environment from ${bootenv}; env import -t ${scriptaddr} ${filesize}; fi; run uenvcmd; fatload mmc 0:1 ${loadaddr} ${bpi}/${board}/${service}/${kernel}; bootm\0" \
     "bootmenu_delay=30\0" \
     ""
 

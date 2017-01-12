@@ -72,6 +72,7 @@ int mmc_legacy_init(int id){
     char buf[512];
 
     
+#ifdef BPI
     ret = __mmc_init(1);
     is_mtk_init = 1;
 
@@ -80,6 +81,22 @@ int mmc_legacy_init(int id){
     printf("ret2 = %d\n", ret2);
     ret2 = mmc_block_read(1, 0, 1, (long unsigned int *)&buf[0]);
     printf("ret2 = %d\n", ret2);
+#else
+    printf("BPI: SD/eMMC SD=1 eMMC=0 id = %d (%s)\n", id, __FILE__);
+    ret = __mmc_init(id);
+    printf("__mmc_init ret = %d\n", ret);
+    if (ret !=0 )
+    	return ret; // error!! ret=1
+    is_mtk_init = 1;
+
+    /*test for read*/
+    ret2 = mmc_block_read(id, 0, 1, (long unsigned int *)&buf[0]);
+    printf("ret2 = %d\n", ret2);
+    ret2 = mmc_block_read(id, 0, 1, (long unsigned int *)&buf[0]);
+    printf("ret2 = %d\n", ret2);
+    g_mtk_mmc_block.dev = id;
+    printf("BPI: g_mtk_mmc_block.dev = %d\n", g_mtk_mmc_block.dev);
+#endif
     
     mmc_info_helper(
                 (unsigned int *)&g_mtk_mmc_block.lba, 
