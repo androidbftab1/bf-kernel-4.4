@@ -321,6 +321,10 @@ static int mt6397_probe(struct platform_device *pdev)
 		if (ret)
 			return ret;
 
+#ifdef BPI
+#else
+		regmap_write(pmic->regmap, MT6323_ISINK_EN_CTRL, 0x07);
+#endif
 		ret = devm_mfd_add_devices(&pdev->dev, -1, mt6323_devs,
 					   ARRAY_SIZE(mt6323_devs), NULL,
 					   0, NULL);
