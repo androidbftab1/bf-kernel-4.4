@@ -26,6 +26,20 @@
 	memory {
 		reg = <0 0x80000000 0 0x40000000>;
 	};
+
+	ice: ice_debug {
+		compatible = "mediatek,mt8521p-ice_debug",
+			     "mediatek,mt2701-ice_debug";
+		clocks = <&infracfg CLK_INFRA_DBG>;
+		clock-names = "ice_dbg";
+	};
+
+	vdd_fixed_vgpu_reg: fixedregulator@0 {
+		compatible = "regulator-fixed";
+		regulator-name = "vdd_fixed_vgpu";
+		regulator-min-microvolt = <1150000>;
+		regulator-max-microvolt = <1150000>;
+	};
 };
 
 &bch {
@@ -76,6 +90,10 @@
 	};
 };
 
+&dpi0 {
+	status = "okay";
+};
+
 &gsw {
 	mt7530-supply = <&mt6323_vpa_reg>;
 	pinctrl-names = "reset";
@@ -83,6 +101,14 @@
 	mediatek,reset-pin = <&pio 33 0>;
 	interrupt-parent = <&pio>;
 	interrupts = <17 IRQ_TYPE_EDGE_RISING>;
+	status = "okay";
+};
+
+&hdmi0 {
+	status = "okay";
+};
+
+&hdmi_phy {
 	status = "okay";
 };
 
@@ -458,6 +484,7 @@
 				regulator-min-microvolt = <1800000>;
 				regulator-max-microvolt = <3300000>;
 				regulator-enable-ramp-delay = <36>;
+				regulator-always-on;
 				regulator-boot-on;
 			};
 
@@ -474,6 +501,7 @@
 				regulator-min-microvolt = <3000000>;
 				regulator-max-microvolt = <3300000>;
 				regulator-enable-ramp-delay = <36>;
+				regulator-always-on;
 				regulator-boot-on;
 			};
 
